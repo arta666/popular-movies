@@ -2,7 +2,7 @@ package com.example.moviestage.app;
 
 public class Commons  {
 
-    
+
     public static final String API_KEY = "";
 
     public static final String RESULTS = "results";
