@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MovieStage</string>
+    <string name="content_movie_poster">movie poster</string>
+    <string name="detail_title_hint">Title</string>
+    <string name="detail_title_release_date">Release Date</string>
+    <string name="detail_title_vote_average">Vote Average</string>
+    <string name="detail_title_overview">Overview</string>
+    <string name="menu_popular_movie">Popular Movie</string>
+    <string name="menu_top_rate_movie">Top Rate Movie</string>
 </resources>
