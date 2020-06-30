@@ -1,11 +1,14 @@
-package com.example.moviestage.activity;
+package com.example.moviestage.presenter;
+
+import com.example.moviestage.repository.MovieRepo;
 
 import com.example.moviestage.model.Movie;
 import com.example.moviestage.network.FetchMovieAsync;
+import com.example.moviestage.view.MovieView;
 
 import java.util.List;
 
-class MoviePresenter implements MovieRepo {
+public class MoviePresenter implements MovieRepo {
 
     final MovieView view;
 

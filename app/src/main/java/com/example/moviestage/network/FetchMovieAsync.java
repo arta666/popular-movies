@@ -1,12 +1,10 @@
 package com.example.moviestage.network;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.moviestage.BuildConfig;
-import com.example.moviestage.activity.MovieRepo;
+import com.example.moviestage.repository.MovieRepo;
 import com.example.moviestage.app.Commons;
 import com.example.moviestage.app.Endpoint;
 import com.example.moviestage.model.Movie;

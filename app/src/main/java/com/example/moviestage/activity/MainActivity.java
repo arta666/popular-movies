@@ -21,7 +21,9 @@ import com.example.moviestage.adapter.MovieAdapter;
 import com.example.moviestage.app.Commons;
 import com.example.moviestage.listener.MovieListener;
 import com.example.moviestage.model.Movie;
+import com.example.moviestage.presenter.MoviePresenter;
 import com.example.moviestage.utils.GridItemDecoration;
+import com.example.moviestage.view.MovieView;
 
 import java.util.ArrayList;
 import java.util.List;

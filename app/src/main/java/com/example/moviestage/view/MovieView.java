@@ -1,10 +1,10 @@
-package com.example.moviestage.activity;
+package com.example.moviestage.view;
 
 import com.example.moviestage.model.Movie;
 
 import java.util.List;
 
-interface MovieView {
+public interface MovieView {
 
     void displayMovies(List<Movie> movies);
 

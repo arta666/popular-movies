@@ -1,4 +1,4 @@
-package com.example.moviestage.activity;
+package com.example.moviestage.repository;
 
 import com.example.moviestage.model.Movie;
 
