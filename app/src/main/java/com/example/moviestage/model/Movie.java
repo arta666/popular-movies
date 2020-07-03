@@ -1,17 +1,21 @@
 package com.example.moviestage.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.moviestage.app.Endpoint;
 
+
+@Entity(tableName = "movies")
 public class Movie implements Parcelable {
 
+    private int id;
     private double popularity;
     private int voteCount;
     private boolean video;
     private String posterPath;
-    private int id;
     private boolean adult;
     private String backdropPath;
     private String originalLanguage;
@@ -21,6 +25,9 @@ public class Movie implements Parcelable {
     private String overview;
     private String releaseDate;
     private int[] genreIds;
+
+    @Ignore
+    private boolean isFavorite;
 
     public Movie() {
 
@@ -41,6 +48,7 @@ public class Movie implements Parcelable {
         overview = in.readString();
         releaseDate = in.readString();
         genreIds = in.createIntArray();
+        isFavorite = in.readByte() != 0;
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -168,6 +176,14 @@ public class Movie implements Parcelable {
         this.genreIds = genreIds;
     }
 
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -189,6 +205,7 @@ public class Movie implements Parcelable {
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
         parcel.writeIntArray(genreIds);
+        parcel.writeByte((byte) (isFavorite ? 1 : 0));
     }
 }
 

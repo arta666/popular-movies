@@ -8,6 +8,10 @@
         <item
             android:id="@+id/top"
             android:title="@string/menu_top_rate_movie" />
+        <item
+            android:id="@+id/favorite"
+            android:title="@string/menu_my_favorite_title" />
+
     </group>
 
 </menu>
