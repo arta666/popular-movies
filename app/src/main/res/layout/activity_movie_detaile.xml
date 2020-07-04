@@ -40,7 +40,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/roboto_regular"
                 tools:text="@string/detail_title_hint"
                 android:textColor="@color/yellow"
                 android:textSize="@dimen/huge_text" />
@@ -130,7 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
-                    android:text="Watch Trailer"
+                    android:text="@string/btn_watch_trailer"
                     android:textColor="@android:color/black"
                     android:background="@drawable/btn_round_yellow"/>
 
@@ -142,18 +142,15 @@
                 <TextView
                     style="@style/textCaption"
                     android:id="@+id/tv_overview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="@dimen/medium_text" />
+                    />
 
                 <Button
                     android:id="@+id/btnReviews"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginTop="8dp"
-                    android:text="Show Reviews"
+                    android:text="@string/btn_reviews"
                     android:textColor="@color/button_text"
                     android:background="@drawable/btn_round"/>
 

@@ -15,4 +15,6 @@
     <string name="detail_label">Detail</string>
     <string name="error_title_failur">Failure!</string>
     <string name="reviews_label">Reviews</string>
+    <string name="btn_reviews">Show Reviews</string>
+    <string name="btn_watch_trailer">Watch Trailer</string>
 </resources>
