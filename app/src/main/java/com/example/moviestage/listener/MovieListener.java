@@ -1,5 +1,7 @@
 package com.example.moviestage.listener;
 
+import com.example.moviestage.model.Movie;
+
 public interface MovieListener {
-    void onItemClick(int position);
+    void onItemClick(Movie movie);
 }

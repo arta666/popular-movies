@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#2196F3</color>
-    <color name="yellow">#FFEB3B</color>
+    <color name="colorPrimary">#373740</color>
+    <color name="colorPrimaryDark">#33333d</color>
+    <color name="colorAccent">#045D56</color>
+    <color name="yellow">#FFCF44</color>
+    <color name="lightGreen">#1EB980</color>
+    <color name="darkGreen">#045D56</color>
+    <color name="orange">#FF6859</color>
+    <color name="activity_background">#373740</color>
+    <color name="dark_orange">#FF9800</color>
 </resources>

@@ -72,56 +72,90 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+
+                    android:layout_marginTop="20dp">
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/TextLabel"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/detail_title_release_date"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        style="@style/textCaption"
+                        android:id="@+id/tv_release_date"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@+id/textView"
+                        app:layout_constraintStart_toStartOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@+id/textView"
+                        tools:text="2009-12-05" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        style="@style/TextLabel"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="@string/detail_title_vote_average"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_vote_avg"
+                        style="@style/textCaption"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="@+id/textView2"
+                        app:layout_constraintStart_toStartOf="@+id/textView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2"
+                        tools:text="89" />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+
+
+                <Button
+                    android:id="@+id/btnTrailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/detail_title_release_date"
-                    android:textSize="@dimen/large_text" />
+                    android:text="Watch Trailer"
+                    android:textColor="@android:color/black"
+                    android:background="@drawable/btn_round_yellow"/>
 
                 <TextView
-                    android:id="@+id/tv_release_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="@dimen/medium_text" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/detail_title_vote_average"
-                    android:textSize="@dimen/large_text" />
-
-                <TextView
-                    android:id="@+id/tv_vote_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="@dimen/medium_text" />
-
-                <TextView
-                    style="@style/TextAppearance.AppCompat.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/TextLabel"
                     android:layout_marginTop="16dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/detail_title_overview"
-                    android:textSize="@dimen/large_text" />
+                    android:text="@string/detail_title_overview" />
 
                 <TextView
+                    style="@style/textCaption"
                     android:id="@+id/tv_overview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="@dimen/medium_text" />
+
+                <Button
+                    android:id="@+id/btnReviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Show Reviews"
+                    android:textColor="@color/button_text"
+                    android:background="@drawable/btn_round"/>
 
             </LinearLayout>
 

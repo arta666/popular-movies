@@ -1,13 +1,11 @@
 package com.example.moviestage.network;
 
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.example.moviestage.repository.MovieRepo;
-import com.example.moviestage.app.Constants;
-import com.example.moviestage.app.Endpoint;
 import com.example.moviestage.model.Movie;
+import com.example.moviestage.model.Review;
+import com.example.moviestage.repository.MovieRepo;
+import com.example.moviestage.repository.ReviewRepo;
 import com.example.moviestage.utils.MovieHelper;
 
 import java.io.BufferedReader;
@@ -15,27 +13,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class FetchMovieAsync extends AsyncTask<String, Void, List<Movie>> {
+public class FetchReviewsAsync extends AsyncTask<String, Void, List<Review>> {
 
-    private static final String TAG = FetchMovieAsync.class.getSimpleName();
+    private static final String TAG = FetchReviewsAsync.class.getSimpleName();
 
-    private final MovieRepo repo;
+    private final ReviewRepo repo;
 
-    public FetchMovieAsync(MovieRepo repo) {
+    public FetchReviewsAsync(ReviewRepo repo) {
         this.repo = repo;
     }
 
     @Override
-    protected List<Movie> doInBackground(String... params) {
+    protected List<Review> doInBackground(String... params) {
 
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-        String moviesJsonStr;
+        String reviewJsonStr;
 
         try {
             URL url = MovieHelper.makeUrl(params);
@@ -62,7 +59,7 @@ public class FetchMovieAsync extends AsyncTask<String, Void, List<Movie>> {
                 return null;
             }
 
-            moviesJsonStr = builder.toString();
+            reviewJsonStr = builder.toString();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,15 +79,13 @@ public class FetchMovieAsync extends AsyncTask<String, Void, List<Movie>> {
             }
         }
 
-        return MovieHelper.getMoviesDataFromJson(moviesJsonStr);
+        return MovieHelper.getReviewsDataFromJson(reviewJsonStr);
     }
 
     @Override
-    protected void onPostExecute(List<Movie> movies) {
-        super.onPostExecute(movies);
-            repo.onSuccess(movies);
+    protected void onPostExecute(List<Review> reviews) {
+        super.onPostExecute(reviews);
+        repo.onSuccess(reviews);
     }
 
 }
-
-

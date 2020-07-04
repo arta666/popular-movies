@@ -2,6 +2,7 @@ package com.example.moviestage.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,7 +12,11 @@ import com.example.moviestage.app.Endpoint;
 @Entity(tableName = "movies")
 public class Movie implements Parcelable {
 
-    private int id;
+
+    private int localId;
+
+    @PrimaryKey
+    private int movieId;
     private double popularity;
     private int voteCount;
     private boolean video;
@@ -24,7 +29,7 @@ public class Movie implements Parcelable {
     private double voteAverage;
     private String overview;
     private String releaseDate;
-    private int[] genreIds;
+
 
     @Ignore
     private boolean isFavorite;
@@ -34,11 +39,12 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        localId = in.readInt();
         popularity = in.readDouble();
         voteCount = in.readInt();
         video = in.readByte() != 0;
         posterPath = in.readString();
-        id = in.readInt();
+        movieId = in.readInt();
         adult = in.readByte() != 0;
         backdropPath = in.readString();
         originalLanguage = in.readString();
@@ -47,7 +53,6 @@ public class Movie implements Parcelable {
         voteAverage = in.readDouble();
         overview = in.readString();
         releaseDate = in.readString();
-        genreIds = in.createIntArray();
         isFavorite = in.readByte() != 0;
     }
 
@@ -62,6 +67,14 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public int getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(int localId) {
+        this.localId = localId;
+    }
 
     public double getPopularity() {
         return popularity;
@@ -89,19 +102,19 @@ public class Movie implements Parcelable {
 
     public String getPosterPath() {
 
-        return Endpoint.TMDB_POSTER_BASE_URL + posterPath;
+        return  posterPath;
     }
 
     public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
     }
 
-    public int getId() {
-        return id;
+    public int getMovieId() {
+        return movieId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public boolean isAdult() {
@@ -113,7 +126,7 @@ public class Movie implements Parcelable {
     }
 
     public String getBackdropPath() {
-        return Endpoint.TMDB_POSTER_BASE_URL + backdropPath;
+        return backdropPath;
     }
 
     public void setBackdropPath(String backdropPath) {
@@ -168,13 +181,6 @@ public class Movie implements Parcelable {
         this.releaseDate = releaseDate;
     }
 
-    public int[] getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(int[] genreIds) {
-        this.genreIds = genreIds;
-    }
 
     public boolean isFavorite() {
         return isFavorite;
@@ -191,11 +197,12 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(localId);
         parcel.writeDouble(popularity);
         parcel.writeInt(voteCount);
         parcel.writeByte((byte) (video ? 1 : 0));
         parcel.writeString(posterPath);
-        parcel.writeInt(id);
+        parcel.writeInt(movieId);
         parcel.writeByte((byte) (adult ? 1 : 0));
         parcel.writeString(backdropPath);
         parcel.writeString(originalLanguage);
@@ -204,7 +211,6 @@ public class Movie implements Parcelable {
         parcel.writeDouble(voteAverage);
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
-        parcel.writeIntArray(genreIds);
         parcel.writeByte((byte) (isFavorite ? 1 : 0));
     }
 }

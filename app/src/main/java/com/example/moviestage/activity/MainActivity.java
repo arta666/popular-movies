@@ -1,10 +1,14 @@
 package com.example.moviestage.activity;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,37 +19,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.moviestage.R;
 import com.example.moviestage.adapter.MovieAdapter;
-import com.example.moviestage.app.Commons;
+import com.example.moviestage.app.Constants;
+import com.example.moviestage.db.MovieViewModel;
 import com.example.moviestage.listener.MovieListener;
 import com.example.moviestage.model.Movie;
 import com.example.moviestage.presenter.MoviePresenter;
 import com.example.moviestage.utils.GridItemDecoration;
 import com.example.moviestage.view.MovieView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MovieView, MovieListener {
+public class MainActivity extends BaseActivity implements MovieView, MovieListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private MoviePresenter presenter;
-    private List<Movie> movieList;
+
     private MovieAdapter movieAdapter;
     private ProgressBar mProgressBar;
     private RecyclerView mRecyclerView;
+    private TextView emptyView;
 
     private static final String KEY_CHECKED_MENU = "key_checked";
 
     private int checkedMenuId = R.id.popular;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         init();
 
@@ -54,9 +61,14 @@ public class MainActivity extends AppCompatActivity implements MovieView, MovieL
     }
 
     @Override
+    public int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(KEY_CHECKED_MENU,checkedMenuId);
+        outState.putInt(KEY_CHECKED_MENU, checkedMenuId);
     }
 
     @Override
@@ -67,11 +79,10 @@ public class MainActivity extends AppCompatActivity implements MovieView, MovieL
 
     private void init() {
 
-        mProgressBar = (ProgressBar)findViewById(R.id.progress);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress);
+        emptyView = findViewById(R.id.emptyView);
 
-        movieList = new ArrayList<>();
-
-        movieAdapter = new MovieAdapter(movieList);
+        movieAdapter = new MovieAdapter(this);
         movieAdapter.setListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -86,31 +97,52 @@ public class MainActivity extends AppCompatActivity implements MovieView, MovieL
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, resources.getDisplayMetrics()));
     }
 
-    private void showContent(){
-        mProgressBar.setVisibility(View.INVISIBLE);
+    private void startLoading() {
+        mRecyclerView.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void stopLoading() {
+        mProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    private void hidContent(){
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        mRecyclerView.setVisibility(View.VISIBLE);
-    }
-
-    private void loadMovies(){
-        movieList.clear();
-        if (checkedMenuId == R.id.popular){
-            presenter.fetchMovies(Commons.SORT_BY_POPULAR);
-        }else {
-            presenter.fetchMovies(Commons.SORT_BY_TOP_RATE);
+    private void showContent (){
+        if (movieAdapter.getItemCount() > 0) {
+            emptyView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.VISIBLE);
         }
     }
 
 
+    private void loadMovies() {
+        if (checkedMenuId == R.id.popular) {
+            presenter.fetchMovies(Constants.SORT_BY_POPULAR);
+        } else {
+            presenter.fetchMovies(Constants.SORT_BY_TOP_RATE);
+        }
+    }
+
+    private void setupViewModel() {
+        final MovieViewModel viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        viewModel.getMovieList().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                if(checkedMenuId == R.id.favorite){
+                    movieAdapter.setMovies(movies);
+                    showContent();
+                }
+
+
+            }
+        });
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu,menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         menu.findItem(checkedMenuId).setChecked(true);
         return true;
     }
@@ -118,20 +150,22 @@ public class MainActivity extends AppCompatActivity implements MovieView, MovieL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+
         int id = item.getItemId();
         item.setChecked(true);
         checkedMenuId = id;
-        loadMovies();
+        if (id == R.id.favorite) {
+            setupViewModel();
+        } else {
+            loadMovies();
+        }
         return true;
     }
 
     @Override
     public void displayMovies(List<Movie> movies) {
-        if (movies !=null && !movies.isEmpty()){
-            movieList.addAll(movies);
-
-        }
-        movieAdapter.notifyDataSetChanged();
+        movieAdapter.setMovies(movies);
+        showContent();
     }
 
     @Override
@@ -139,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements MovieView, MovieL
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showAlertMessage("Failure!",error);
+                showAlertMessage(getString(R.string.error_title_failur), error);
             }
         });
 
@@ -147,34 +181,21 @@ public class MainActivity extends AppCompatActivity implements MovieView, MovieL
 
     @Override
     public void showProgress() {
-        hidContent();
+        startLoading();
     }
 
     @Override
     public void hideProgress() {
-        showContent();
+        stopLoading();
     }
 
     @Override
-    public void onItemClick(int position) {
-        Movie movie = movieList.get(position);
-        Intent intent = new Intent(this,MovieDetail.class);
-        intent.putExtra(MovieDetail.KEY_MOVIE,movie);
+    public void onItemClick(Movie movie) {
+        Intent intent = new Intent(this, MovieDetail.class);
+        intent.putExtra(MovieDetail.KEY_MOVIE, movie);
         startActivity(intent);
 
     }
 
-    private void showAlertMessage(String title, String message){
-        new AlertDialog
-                .Builder(this)
-                .setTitle("Failure!")
-                .setMessage(message)
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-                .show();
-    }
+
 }

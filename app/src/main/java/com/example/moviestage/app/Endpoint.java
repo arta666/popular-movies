@@ -6,5 +6,7 @@ public class Endpoint {
 
     public static final String TMDB_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
+    public static final String YOUTUBE = "https://www.youtube.com/watch?v=";
+
 
 }

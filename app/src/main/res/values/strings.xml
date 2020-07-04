@@ -11,4 +11,8 @@
     //Info for testing view
     <string name="detail_title_hint">SkyFall</string>
     <string name="menu_my_favorite_title">My Favorite</string>
+    <string name="message_empty_data">Nothing Found !</string>
+    <string name="detail_label">Detail</string>
+    <string name="error_title_failur">Failure!</string>
+    <string name="reviews_label">Reviews</string>
 </resources>
